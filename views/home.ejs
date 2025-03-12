@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Book Store</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fb;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;  /* Giảm font-size */
+        }
+
+        header p {
+            font-size: 1rem;  /* Giảm font-size */
+            margin: 5px 0 0;
+        }
+
+        section {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 1.5rem;  /* Giảm font-size */
+            margin-bottom: 15px;
+        }
+
+        .project-info ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .project-info li {
+            font-size: 1rem;  /* Giảm font-size */
+            margin-bottom: 8px;
+            line-height: 1.6rem;
+        }
+
+        .author-info {
+            background-color: #e8f5e9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            /*margin-bottom: 10px;*/
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .author-info h3 {
+            color: #4CAF50;
+            font-size: 1.4rem;  /* Giảm font-size */
+            margin-bottom: 15px;
+        }
+
+        .author-info p {
+            font-size: 1rem;  /* Giảm font-size */
+            line-height: 1.7;
+        }
+
+        .contact-info {
+            color: #1e88e5;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .contact-info:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            background-color: #9d9c9c;
+            color: white;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            font-size: 1rem;  /* Giảm font-size */
+        }
+
+        .footer a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;  /* Giảm font-size */
+            }
+
+            section {
+                padding: 20px;
+            }
+
+            .author-info {
+                padding: 20px;
+            }
+
+            .footer {
+                font-size: 0.8rem;  /* Giảm font-size */
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>BookStore💞</h1>
+    <p>Source Backend cho dự án Book Store</p>
+</header>
+
+<section>
+    <div class="project-info">
+        <h2>Mô Tả Dự Án</h2>
+        <p>BookStore là một dự án làm quen với React. Giúp năm vững những khái niệm cơ bản như props và state.</p>
+        <h2>Công nghệ:</h2>
+        <ul>
+            <li>Frontend: React (JavaScript), Ant Design</li>
+            <li>Backend: NestJS</li>
+        </ul>
+    </div>
+
+    <div class="author-info">
+        <h3>Tác Giả</h3>
+        <p>👋 Chào bạn, tôi là <strong>Kirito Nguyễn</strong>!</p>
+        <p>👀 Tôi đam mê lập trình, đặc biệt là trong lĩnh vực phát triển website và ứng dụng di động.</p>
+        <p>🌱 Hiện tại, tôi đang theo học ngành Công nghệ Thông tin và tập trung vào việc phát triển website và ứng dụng
+            di động.</p>
+        <p>💞️ Tôi luôn mong muốn tìm kiếm cơ hội hợp tác trong các dự án sáng tạo liên quan đến website và ứng dụng di
+            động.</p>
+        <p>📫 Bạn có thể liên hệ với tôi qua website: <a class="contact-info" href="https://minhducnguyen.io.vn"
+                                                        target="_blank">https://minhducnguyen.io.vn</a></p>
+        <p>😄 Ngoài lập trình, tôi cũng rất thích ca hát và chơi nhạc cụ – đó là cách tôi thư giãn và sáng tạo!</p>
+        <p>⚡ Sở thích của tôi là viết mã ngắn gọn, dễ hiểu và hiệu quả – tối giản nhưng mạnh mẽ.</p>
+    </div>
+</section>
+
+<div class="footer">
+    <p>&copy; 2024 BookStore. Code ❤️ Kirito Nguyễn | <a href="https://minhducnguyen.io.vn" target="_blank">Liên
+            hệ tác giả</a></p>
+</div>
+</body>
+</html>
