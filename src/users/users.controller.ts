@@ -5,7 +5,7 @@ import {
   Body,
   Param,
   Delete,
-  Put,
+  Put, Query,
 } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { UpdateUserDto } from 'src/users/dto/update-user.dto';
@@ -23,8 +23,12 @@ export class UsersController {
 
   @Public()
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(
+    @Query('current') currentPage: string,
+    @Query('pageSize') limit: string,
+    @Query() reqString: string,
+  ) {
+    return this.usersService.findAll(+currentPage, +limit, reqString);
   }
 
   @Get(':id')

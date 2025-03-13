@@ -6,7 +6,7 @@ import { User, UserDocument } from 'src/users/schemas/user.schema';
 import mongoose from 'mongoose';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
-import * as path from 'node:path';
+import aqp from 'api-query-params';
 
 @Injectable()
 export class UsersService {
@@ -34,8 +34,35 @@ export class UsersService {
     });
   }
 
-  findAll() {
-    return this.userModel.find().exec();
+  async findAll(currentPage: number, limit: number, reqString: string) {
+    const { filter, sort, population } = aqp(reqString);
+    delete filter.current;
+    delete filter.pageSize;
+
+    let offset = (+currentPage - 1) * +limit;
+    let defaultLimit = +limit ? +limit : 10;
+
+    const totalItems = (await this.userModel.find(filter)).length;
+    const totalPages = Math.ceil(totalItems / defaultLimit);
+
+    const result = await this.userModel
+      .find(filter)
+      .skip(offset)
+      .limit(defaultLimit)
+      .sort(sort as any)
+      .select('-password')
+      .populate(population)
+      .exec();
+
+    return {
+      meta: {
+        current: currentPage, //trang hiện tại
+        pageSize: limit, //số lượng bản ghi đã lấy
+        pages: totalPages, //tổng số trang với điều kiện query
+        total: totalItems, // tổng số phần tử (số bản ghi)
+      },
+      result, //kết quả query
+    };
   }
 
   findOne(id: number) {
