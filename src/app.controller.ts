@@ -30,7 +30,6 @@ export class AppController {
     return this.authService.login(req.user);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get('auth/account')
   getProfile(@Request() req) {
     return req.user;
