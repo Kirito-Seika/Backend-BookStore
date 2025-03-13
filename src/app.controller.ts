@@ -1,8 +1,4 @@
-import {
-  Controller,
-  Get,
-  Render,
-} from '@nestjs/common';
+import { Controller, Get, Render } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppService } from 'src/app.service';
 import { Public } from 'src/decorator/customize';
@@ -16,9 +12,8 @@ export class AppController {
 
   @Public()
   @Get()
-  @Render('home')
+  @Render('home.ejs')
   getHello() {
-    return this.appService.getHello()
+    return this.appService.getHello();
   }
-
 }

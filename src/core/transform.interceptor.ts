@@ -28,7 +28,9 @@ export class TransformInterceptor<T>
     return next.handle().pipe(
       map((data) => ({
         statusCode: context.switchToHttp().getResponse().statusCode,
-        message: this.reflector.get<string>(RESPONSE_MESSAGE, context.getHandler()) || '',
+        message:
+          this.reflector.get<string>(RESPONSE_MESSAGE, context.getHandler()) ||
+          '',
         data: data,
       })),
     );

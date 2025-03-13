@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import aqp from 'api-query-params';
+import * as path from 'node:path';
 
 @Injectable()
 export class UsersService {
@@ -21,8 +22,10 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    const { fullName, email, password, phone, role, isActive } = createUserDto;
+    const { fullName, email, password, phone, role, avatar, isActive } =
+      createUserDto;
     const hashPassword = this.hashPassword(password);
+    const avatarPath = avatar || 'user.jpg';
 
     return await this.userModel.create({
       fullName,
@@ -30,6 +33,7 @@ export class UsersService {
       password: hashPassword,
       phone,
       role,
+      avatar: avatarPath,
       isActive,
     });
   }
@@ -50,7 +54,7 @@ export class UsersService {
       .skip(offset)
       .limit(defaultLimit)
       .sort(sort as any)
-      .select('-password')
+      .select('-password -deletedAt -isDeleted')
       .populate(population)
       .exec();
 

@@ -20,5 +20,7 @@ export class CreateUserDto {
 
   role: string;
 
+  avatar: string;
+
   isActive: boolean;
 }
