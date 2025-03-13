@@ -55,6 +55,12 @@ export class AuthService {
     };
   }
 
+  logout = async (response: Response, user: IUser) => {
+    await this.usersService.updateUserToken("", user._id);
+    response.clearCookie("refresh_token");
+    return "ok";
+  }
+
   refreshToken = (payload: any) => {
     return this.jwtService.sign(payload, {
       secret: this.configService.get<string>('JWT_REFRESH_SECRET'),

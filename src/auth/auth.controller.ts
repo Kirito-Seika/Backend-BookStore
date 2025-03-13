@@ -41,4 +41,11 @@ export class AuthController {
   getProfile(@User() user: IUser) {
     return { user };
   }
+
+  @ResponseMessage('Logout User')
+  @Post('/logout')
+  handleLogout(@Res({ passthrough: true }) response: Response, @User() user: IUser,
+  ) {
+    return this.authService.logout(response, user);
+  }
 }
