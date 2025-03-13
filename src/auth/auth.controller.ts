@@ -4,14 +4,17 @@ import {
   Post,
   UseGuards,
   Request,
-  Body, Req, Res,
+  Body,
+  Req,
+  Res,
 } from '@nestjs/common';
-import { Public, ResponseMessage } from 'src/decorator/customize';
+import { Public, ResponseMessage, User } from 'src/decorator/customize';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AuthService } from 'src/auth/auth.service';
 import { RegisterUserDto } from 'src/users/dto/register-user.dto';
 import { Response } from 'express';
+import { IUser } from 'src/users/types/user.interface';
 
 @Controller('auth')
 export class AuthController {
@@ -35,7 +38,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @ResponseMessage('Information User Login')
   @Get('/account')
-  getProfile(@Request() req) {
-    return req.user;
+  getProfile(@User() user: IUser) {
+    return { user };
   }
 }

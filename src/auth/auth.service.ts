@@ -51,6 +51,7 @@ export class AuthService {
       _id: newUser?._id,
       email: newUser?.email,
       fullName: newUser.fullName,
+
     };
   }
 
