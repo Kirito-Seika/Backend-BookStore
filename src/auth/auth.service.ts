@@ -31,13 +31,11 @@ export class AuthService {
     };
     return {
       access_token: this.jwtService.sign(payload),
-      data: {
-        id: user._id,
-        fullName: user.fullName,
-        email: user.email,
-        phone: user.phone,
-        role: user.role,
-      },
+      id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      phone: user.phone,
+      role: user.role,
     };
   }
 }
