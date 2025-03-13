@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { CreateBookDto } from 'src/books/dto/create-book.dto';
 import { UpdateBookDto } from 'src/books/dto/update-book.dto';
-import { InjectModel } from '@nestjs/mongoose';
 import { Book as bookModal, BookDocument } from 'src/books/schemas/book.schema';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import mongoose from 'mongoose';

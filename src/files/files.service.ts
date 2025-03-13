@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFileDto } from './dto/create-file.dto';
-import { UpdateFileDto } from './dto/update-file.dto';
+import { CreateFileDto } from 'src/files/dto/create-file.dto';
+import { UpdateFileDto } from 'src/files/dto/update-file.dto';
 
 @Injectable()
 export class FilesService {

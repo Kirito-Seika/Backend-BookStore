@@ -13,8 +13,8 @@ import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { AuthService } from 'src/auth/auth.service';
 import { RegisterUserDto } from 'src/users/dto/register-user.dto';
-import { Response } from 'express';
 import { IUser } from 'src/users/types/user.interface';
+import { Response } from 'express';
 
 @Controller('auth')
 export class AuthController {

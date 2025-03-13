@@ -5,9 +5,9 @@ import { AppController } from 'src/app.controller';
 import { AppService } from 'src/app.service';
 import { UsersModule } from 'src/users/users.module';
 import { AuthModule } from 'src/auth/auth.module';
+import { BooksModule } from 'src/books/books.module';
+import { FilesModule } from 'src/files/files.module';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
-import { BooksModule } from './books/books.module';
-import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
