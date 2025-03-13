@@ -6,6 +6,7 @@ import { AppModule } from 'src/app.module';
 import { join } from 'path';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { TransformInterceptor } from 'src/core/transform.interceptor';
+import cookieParser from 'cookie-parser';
 
 const bootstrap = async () => {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -19,10 +20,12 @@ const bootstrap = async () => {
   app.setViewEngine('ejs');
   app.useGlobalPipes(new ValidationPipe());
 
+  app.use(cookieParser());
+
   app.enableCors({
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    preflightContinue: false
+    preflightContinue: false,
   });
 
   app.setGlobalPrefix('api');

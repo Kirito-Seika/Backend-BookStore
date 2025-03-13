@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { UsersService } from 'src/users/users.service';
 import { IUser } from 'src/users/types/user.interface';
 import { RegisterUserDto } from 'src/users/dto/register-user.dto';
+import { Response } from 'express';
 import ms from 'ms';
 
 @Injectable()
@@ -25,27 +26,22 @@ export class AuthService {
     return null;
   }
 
-  async login(user: IUser) {
-    const payload = {
-      id: user._id,
-      fullName: user.fullName,
-      email: user.email,
-      phone: user.phone,
-      role: user.role,
-      avatar: user.avatar,
-    };
+  async login(user: IUser, response: Response) {
+    const { _id, fullName, email, phone, role, avatar } = user;
+    const payload = { _id, fullName, email, phone, role, avatar };
+
     const refresh_token = this.refreshToken(payload);
+
+    await this.usersService.updateUserToken(refresh_token, _id);
+
+    response.cookie('refresh_token', refresh_token, {
+      httpOnly: true,
+      maxAge: ms(this.configService.get<string>('JWT_REFRESH_EXPIRE_IN')),
+    });
+
     return {
       access_token: this.jwtService.sign(payload),
-      refresh_token,
-      user: {
-        id: user._id,
-        fullName: user.fullName,
-        email: user.email,
-        phone: user.phone,
-        role: user.role,
-        avatar: user.avatar,
-      },
+      user: { _id, fullName, email, phone, role, avatar },
     };
   }
 
