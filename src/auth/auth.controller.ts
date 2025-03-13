@@ -16,7 +16,6 @@ import { RegisterUserDto } from 'src/users/dto/register-user.dto';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  //login
   @Public()
   @UseGuards(LocalAuthGuard)
   @ResponseMessage('Login User')
@@ -24,9 +23,10 @@ export class AuthController {
   handleLogin(@Request() req) {
     return this.authService.login(req.user);
   }
+
   @Public()
   @Post('/register')
-  @ResponseMessage("Register User")
+  @ResponseMessage('Register User')
   handleRegister(@Body() registerUserDto: RegisterUserDto) {
     return this.authService.register(registerUserDto);
   }

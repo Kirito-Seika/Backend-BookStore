@@ -1,14 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import { UsersService } from 'src/users/users.service';
 import { IUser } from 'src/users/types/user.interface';
 import { RegisterUserDto } from 'src/users/dto/register-user.dto';
+import ms from 'ms';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
@@ -29,14 +32,20 @@ export class AuthService {
       email: user.email,
       phone: user.phone,
       role: user.role,
+      avatar: user.avatar,
     };
+    const refresh_token = this.refreshToken(payload);
     return {
       access_token: this.jwtService.sign(payload),
-      id: user._id,
-      fullName: user.fullName,
-      email: user.email,
-      phone: user.phone,
-      role: user.role,
+      refresh_token,
+      user: {
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        avatar: user.avatar,
+      },
     };
   }
 
@@ -48,4 +57,12 @@ export class AuthService {
       fullName: newUser.fullName,
     };
   }
+
+  refreshToken = (payload: any) => {
+    return this.jwtService.sign(payload, {
+      secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
+      expiresIn:
+        ms(this.configService.get<string>('JWT_REFRESH_EXPIRE_IN')) / 1000,
+    });
+  };
 }

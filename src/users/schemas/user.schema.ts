@@ -23,6 +23,9 @@ export class User {
   @Prop({ type: String })
   avatar: string;
 
+  @Prop({ type: String })
+  refreshToken: string;
+
   @Prop({ type: Boolean, default: true })
   isActive: boolean;
 

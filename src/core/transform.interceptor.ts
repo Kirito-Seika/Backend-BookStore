@@ -32,6 +32,7 @@ export class TransformInterceptor<T>
           this.reflector.get<string>(RESPONSE_MESSAGE, context.getHandler()) ||
           '',
         data: data,
+        author: `Kirito Nguyễn | Website: minhducnguyen.io.vn | I'm a Developer `,
       })),
     );
   }
