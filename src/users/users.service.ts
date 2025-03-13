@@ -1,18 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { UpdateUserDto } from 'src/users/dto/update-user.dto';
-import { User, UserDocument } from 'src/users/schemas/user.schema';
+import { User as userModal, UserDocument } from 'src/users/schemas/user.schema';
+import { User } from 'src/decorator/customize';
+import { IUser } from 'src/users/types/user.interface';
 import mongoose from 'mongoose';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
 import aqp from 'api-query-params';
-import * as path from 'node:path';
+import { RegisterUserDto } from './dto/register-user.dto';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectModel(User.name)
+    @InjectModel(userModal.name)
     private userModel: SoftDeleteModel<UserDocument>,
   ) {}
 
@@ -21,9 +23,15 @@ export class UsersService {
     return hashSync(password, salt);
   }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto, @User() user: IUser) {
     const { fullName, email, password, phone, role, avatar, isActive } =
       createUserDto;
+    const isExist = await this.userModel.findOne({ email });
+    if (isExist) {
+      throw new BadRequestException(
+        `Email: ${email} đã tồn tại trên hệ thống. Vui lòng sử dụng email khác.`,
+      );
+    }
     const hashPassword = this.hashPassword(password);
     const avatarPath = avatar || 'user.jpg';
 
@@ -35,6 +43,26 @@ export class UsersService {
       role,
       avatar: avatarPath,
       isActive,
+    });
+  }
+
+  async register(user: RegisterUserDto) {
+    const { fullName, email, password, phone } = user;
+    //add logic check email
+    const isExist = await this.userModel.findOne({ email });
+    if (isExist) {
+      throw new BadRequestException(
+        `Email: ${email} đã tồn tại trên hệ thống. Vui lòng sử dụng email khác.`,
+      );
+    }
+    const hashPassword = this.hashPassword(password);
+    return await this.userModel.create({
+      fullName,
+      email,
+      password: hashPassword,
+      phone,
+      role: 'USER',
+      avatar: 'user.jpg',
     });
   }
 
@@ -69,8 +97,11 @@ export class UsersService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  findOne(id: string) {
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return 'Not Found User';
+    }
+    return this.userModel.findOne({ _id: id }).select('-password');
   }
 
   findOneByUsername(username: string) {
@@ -81,7 +112,7 @@ export class UsersService {
     return compareSync(password, hash);
   }
 
-  async update(updateUserDto: UpdateUserDto) {
+  update(updateUserDto: UpdateUserDto) {
     return this.userModel.updateOne(
       { _id: updateUserDto._id },
       { ...updateUserDto },
