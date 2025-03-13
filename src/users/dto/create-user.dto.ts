@@ -17,4 +17,8 @@ export class CreateUserDto {
 
   @Validate(IsPhoneValidConstraint)
   phone: string;
+
+  role: string;
+
+  isActive: boolean;
 }

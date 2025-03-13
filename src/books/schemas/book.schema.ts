@@ -23,9 +23,6 @@ export class Book {
   @Prop({ type: String, required: true })
   category: string;
 
-  @Prop({ type: Number })
-  sold: number;
-
   @Prop({ type: Date })
   createdAt: Date;
 

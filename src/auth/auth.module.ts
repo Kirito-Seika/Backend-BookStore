@@ -7,6 +7,7 @@ import { UsersModule } from 'src/users/users.module';
 import { LocalStrategy } from 'src/auth/passport/local.strategy';
 import { JwtStrategy } from 'src/auth/passport/jwt.strategy';
 import ms from 'ms';
+import { AuthController } from './auth.controller';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import ms from 'ms';
       inject: [ConfigService],
     }),
   ],
+  controllers: [AuthController],
   providers: [AuthService, LocalStrategy, JwtStrategy],
   exports: [AuthService],
 })

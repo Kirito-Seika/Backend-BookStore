@@ -6,6 +6,7 @@ import { User, UserDocument } from 'src/users/schemas/user.schema';
 import mongoose from 'mongoose';
 import { compareSync, genSaltSync, hashSync } from 'bcryptjs';
 import { SoftDeleteModel } from 'soft-delete-plugin-mongoose';
+import * as path from 'node:path';
 
 @Injectable()
 export class UsersService {
@@ -20,12 +21,16 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto) {
-    const hashPassword = this.hashPassword(createUserDto.password);
+    const { fullName, email, password, phone, role, isActive } = createUserDto;
+    const hashPassword = this.hashPassword(password);
+
     return await this.userModel.create({
-      fullName: createUserDto.fullName,
-      email: createUserDto.email,
+      fullName,
+      email,
       password: hashPassword,
-      phone: createUserDto.phone,
+      phone,
+      role,
+      isActive,
     });
   }
 
