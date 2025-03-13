@@ -6,6 +6,7 @@ import { AppService } from 'src/app.service';
 import { UsersModule } from 'src/users/users.module';
 import { AuthModule } from 'src/auth/auth.module';
 import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
+import { BooksModule } from './books/books.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { softDeletePlugin } from 'soft-delete-plugin-mongoose';
     }),
     UsersModule,
     AuthModule,
+    BooksModule,
   ],
   controllers: [AppController],
   providers: [AppService],
