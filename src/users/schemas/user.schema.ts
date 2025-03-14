@@ -21,7 +21,7 @@ export class User {
   role: string;
 
   @Prop({ type: String })
-  avatar: string;
+  avatar?: string;
 
   @Prop({ type: String })
   refreshToken: string;

@@ -1,4 +1,4 @@
-import { Validate } from 'class-validator';
+import { IsOptional, Validate } from 'class-validator';
 import {
   IsEmailValidConstraint,
   IsNameValidConstraint,
@@ -20,7 +20,8 @@ export class CreateUserDto {
 
   role: string;
 
-  avatar: string;
+  @IsOptional()
+  avatar?: string;
 
   isActive: boolean;
 }

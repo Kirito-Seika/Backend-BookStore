@@ -5,12 +5,12 @@ import { FilesController } from 'src/files/files.controller';
 import { MulterConfigService } from 'src/files/config/multer.config';
 
 @Module({
+  controllers: [FilesController],
+  providers: [FilesService],
   imports: [
     MulterModule.registerAsync({
       useClass: MulterConfigService,
     }),
   ],
-  controllers: [FilesController],
-  providers: [FilesService],
 })
 export class FilesModule {}

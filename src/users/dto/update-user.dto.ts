@@ -8,4 +8,6 @@ export class UpdateUserDto extends OmitType(CreateUserDto, [
 ] as const) {
   @IsNotEmpty({ message: 'Id không được để trống', })
   _id: string;
+
+
 }

@@ -23,6 +23,20 @@ export class UsersService {
     return hashSync(password, salt);
   }
 
+  private formatUserResponse(user: UserDocument) {
+    return {
+      _id: user._id,
+      fullName: user.fullName,
+      email: user.email,
+      phone: user.phone,
+      role: user.role,
+      avatar: `http://localhost:8088/public/images/avatar/${user.avatar}`, // Thêm đường dẫn đầy đủ
+      isActive: user.isActive,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
+  }
+
   async create(createUserDto: CreateUserDto, @User() user: IUser) {
     const { fullName, email, password, phone, role, avatar, isActive } =
       createUserDto;
@@ -33,17 +47,18 @@ export class UsersService {
       );
     }
     const hashPassword = this.hashPassword(password);
-    const avatarPath = avatar || 'user.jpg';
-
-    return await this.userModel.create({
+    const avatarFileName = 'default.jpg';
+    const newUser = await this.userModel.create({
       fullName,
       email,
       password: hashPassword,
       phone,
       role,
-      avatar: avatarPath,
+      avatar: avatarFileName, // Lưu CHỈ tên file
       isActive,
     });
+
+    return this.formatUserResponse(newUser);
   }
 
   async register(user: RegisterUserDto) {
@@ -62,7 +77,6 @@ export class UsersService {
       password: hashPassword,
       phone,
       role: 'USER',
-      avatar: 'user.jpg',
     });
   }
 
@@ -112,11 +126,32 @@ export class UsersService {
     return compareSync(password, hash);
   }
 
-  update(updateUserDto: UpdateUserDto) {
-    return this.userModel.updateOne(
-      { _id: updateUserDto._id },
-      { ...updateUserDto },
+  async update(updateUserDto: UpdateUserDto) {
+    const { _id, avatar, ...updateData } = updateUserDto;
+
+    // Kiểm tra user có tồn tại không
+    const user = await this.userModel.findById(_id);
+    if (!user) {
+      throw new BadRequestException('User không tồn tại');
+    }
+
+    // Nếu không có avatar mới, giữ nguyên avatar cũ
+    const updatedAvatar = avatar ? avatar : user.avatar;
+
+    // Cập nhật thông tin user
+    const result = await this.userModel.updateOne(
+      { _id },
+      { ...updateData, avatar: updatedAvatar }
     );
+
+    if (result.modifiedCount === 0) {
+      throw new BadRequestException('Cập nhật không thành công');
+    }
+
+    return {
+      message: '✅ Cập nhật thành công!',
+      avatar: updatedAvatar, // Chỉ lưu tên file ảnh
+    };
   }
 
   remove(id: string) {
