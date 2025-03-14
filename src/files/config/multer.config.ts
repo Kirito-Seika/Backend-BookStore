@@ -41,7 +41,7 @@ export class MulterConfigService implements MulterOptionsFactory {
     return {
       storage: diskStorage({
         destination: (req, file, cb) => {
-          const folder = req?.headers?.folder_type ?? 'avatar';
+          const folder = req?.headers?.folder_type ?? 'default';
           const fullPath = join(this.getRootPath(), `public/images/${folder}`);
           if (!fs.existsSync(fullPath)) {
             fs.mkdirSync(fullPath, { recursive: true });
@@ -59,4 +59,5 @@ export class MulterConfigService implements MulterOptionsFactory {
       }),
     };
   }
+
 }
