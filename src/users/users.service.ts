@@ -63,6 +63,7 @@ export class UsersService {
       password: hashPassword,
       phone,
       role: 'USER',
+      avatar: 'default.jpg',
     });
   }
 
