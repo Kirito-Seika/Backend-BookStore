@@ -48,7 +48,10 @@ export class UsersService {
   }
 
   async register(user: RegisterUserDto) {
-    const { fullName, email, password, phone } = user;
+    const { fullName, email, password, phone, delay } = user;
+    if (delay && delay > 0) {
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
     //add logic check email
     const isExist = await this.userModel.findOne({ email });
     if (isExist) {

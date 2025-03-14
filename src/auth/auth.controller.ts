@@ -24,8 +24,8 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @ResponseMessage('Login User')
   @Post('/login')
-  handleLogin(@Req() req, @Res({ passthrough: true }) response: Response) {
-    return this.authService.login(req.user, response);
+  handleLogin(@Req() req, @Res({ passthrough: true }) response: Response, @Body() body: any) {
+    return this.authService.login(req.user, response, body.delay);
   }
 
   @Public()

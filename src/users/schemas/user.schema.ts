@@ -26,6 +26,9 @@ export class User {
   @Prop({ type: String })
   refreshToken: string;
 
+  @Prop({ type: Number })
+  delay: number;
+
   @Prop({ type: Boolean, default: true })
   isActive: boolean;
 

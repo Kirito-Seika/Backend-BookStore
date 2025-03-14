@@ -26,9 +26,12 @@ export class AuthService {
     return null;
   }
 
-  async login(user: IUser, response: Response) {
+  async login(user: IUser, response: Response, delay?: number) {
     const { _id, fullName, email, phone, role, avatar } = user;
     const payload = { _id, fullName, email, phone, role, avatar };
+    if (delay && delay > 0) {
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
 
     const refresh_token = this.refreshToken(payload);
 
@@ -41,7 +44,7 @@ export class AuthService {
 
     return {
       access_token: this.jwtService.sign(payload),
-      user: { _id, fullName, email, phone, role, avatar },
+      user: payload,
     };
   }
 
@@ -51,7 +54,6 @@ export class AuthService {
       _id: newUser?._id,
       email: newUser?.email,
       fullName: newUser.fullName,
-
     };
   }
 

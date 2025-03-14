@@ -19,4 +19,5 @@ export class RegisterUserDto {
   @Validate(IsPhoneValidConstraint)
   phone: string;
 
+  delay?: number;
 }
