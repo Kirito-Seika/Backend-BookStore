@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from 'src/decorator/customize';
 import { IUser } from 'src/users/types/user.interface';
@@ -119,10 +119,20 @@ export class UsersService {
     );
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return 'Not Found User';
     }
+    const foundUser = await this.userModel.findById(id);
+    if (!foundUser) {
+      throw new NotFoundException('User not found');
+    }
+
+    const restrictedEmails = ['admin@gmail.com', 'kirito@gmail.com', 'user@gmail.com'];
+    if (restrictedEmails.includes(foundUser.email)) {
+      throw new BadRequestException(`Không thể xóa tài khoản: '${foundUser.email}'. Xóa rồi lấy gì mà test hả pro?`);
+    }
+
     return this.userModel.softDelete({ _id: id });
   }
 
